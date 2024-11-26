@@ -1,0 +1,103 @@
+x-zabbix-timescaledb-env: &zabbix-timescaledb-env
+  DB_SERVER_HOST: zabbix-timescaledb
+  POSTGRES_DB: zabbix
+  POSTGRES_USER: zabbix
+  POSTGRES_PASSWORD: zabbix
+
+services:
+  zabbix-server:
+    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/zabbix-server-pgsql
+    container_name: zabbix-server
+    restart: unless-stopped
+    # ports:
+    #   - 10051:10051
+    volumes:
+      - zabbix-server-history-data:/var/lib/zabbix/export:z
+    depends_on:
+      - zabbix-timescaledb
+    environment:
+      <<: [ *zabbix-timescaledb-env ]
+      ENABLE_TIMESCALEDB: TRUE
+      ZBX_CACHESIZE: 2G
+      ZBX_EXPORTFILESIZE: 1G
+      ZBX_EXPORTTYPE: history
+      ZBX_HANODENAME: zabbix-server
+      ZBX_HISTORYCACHESIZE: 1G
+      ZBX_HISTORYINDEXCACHESIZE: 1G
+      ZBX_MAXHOUSEKEEPERDELETE: 500000
+      ZBX_NODEADDRESS: zabbix-server
+      ZBX_STARTALERTERS: 10
+      ZBX_STARTDBSYNCERS: 30
+      ZBX_STARTDISCOVERERS: 2
+      ZBX_STARTHTTPPOLLERS: 2
+      ZBX_STARTPINGERS: 5
+      ZBX_STARTPOLLERS: 200
+      ZBX_STARTPOLLERSUNREACHABLE: 20
+      ZBX_STARTTRAPPERS: 5
+      ZBX_STARTVMWARECOLLECTORS: 6
+      ZBX_TIMEOUT: 30
+      ZBX_TRENDCACHESIZE: 1G
+      ZBX_UNAVAILABLEDELAY: 15
+      ZBX_UNREACHABLEDELAY: 15
+      ZBX_UNREACHABLEPERIOD: 45
+      ZBX_VALUECACHESIZE: 1G
+
+  zabbix-web:
+    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/zabbix-web-nginx-pgsql
+    container_name: zabbix-web
+    restart: unless-stopped
+    ports:
+      - 8088:8080
+    depends_on:
+      - zabbix-timescaledb
+    environment:
+      <<: [ *zabbix-timescaledb-env ]
+      PHP_TZ: Asia/Shanghai
+
+  zabbix-timescaledb:
+    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/timescaledb
+    container_name: zabbix-timescaledb
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - zabbix-timescaledb-data:/var/lib/postgresql/data
+    environment:
+      <<: [ *zabbix-timescaledb-env ]
+
+  zabbix-agent:
+    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/zabbix-agent2
+    container_name: netmaster-zabbix-agent
+    restart: unless-stopped
+    # ports:
+    #   - 10050:10050
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /:/hostfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    depends_on:
+      - zabbix-server
+    environment:
+      ZBX_SERVER_HOST: zabbix-server
+      ZBX_SERVER_PORT: 10051
+      ZBX_HOSTNAME: Zabbix server
+
+  grafana:
+    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/grafana
+    container_name: zabbix-grafana
+    environment:
+      GF_INSTALL_PLUGINS: alexanderzobnin-zabbix-app
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - grafana-conf:/etc/grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+volumes:
+  zabbix-server-history-data:
+  zabbix-timescaledb-data:
+  grafana-data:
+  grafana-conf:
+
+
