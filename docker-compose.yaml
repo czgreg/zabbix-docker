@@ -6,15 +6,15 @@ x-zabbix-timescaledb-env: &zabbix-timescaledb-env
 
 services:
   zabbix-server:
-    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/zabbix-server-pgsql
+    image: zabbix/zabbix-server-pgsql:ubuntu-6.4.20
     container_name: zabbix-server
     restart: unless-stopped
     # ports:
     #   - 10051:10051
     volumes:
       - zabbix-server-history-data:/var/lib/zabbix/export:z
-      - ./config.ini:/usr/lib/zabbix/alertscripts/config.ini:ro
-      - ./lark.py:/usr/lib/zabbix/alertscripts/lark.py
+      - ./config.ini:/usr/lib/zabbix/alertscripts/config.ini
+      - ./lark.sh:/usr/lib/zabbix/alertscripts/lark.sh
 
     depends_on:
       - zabbix-timescaledb
@@ -44,6 +44,9 @@ services:
       ZBX_UNREACHABLEDELAY: 15
       ZBX_UNREACHABLEPERIOD: 45
       ZBX_VALUECACHESIZE: 1G
+    networks:
+      zabbix:
+        ipv4_address: 172.20.0.2
 
   zabbix-web:
     image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/zabbix-web-nginx-pgsql
@@ -56,6 +59,9 @@ services:
     environment:
       <<: [ *zabbix-timescaledb-env ]
       PHP_TZ: Asia/Shanghai
+    networks:
+      zabbix:
+        ipv4_address: 172.20.0.3
 
   zabbix-timescaledb:
     image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/timescaledb
@@ -67,6 +73,9 @@ services:
       - zabbix-timescaledb-data:/var/lib/postgresql/data
     environment:
       <<: [ *zabbix-timescaledb-env ]
+    networks:
+      zabbix:
+        ipv4_address: 172.20.0.4
 
   zabbix-agent:
     image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/zabbix-agent2
@@ -84,6 +93,9 @@ services:
       ZBX_SERVER_HOST: zabbix-server
       ZBX_SERVER_PORT: 10051
       ZBX_HOSTNAME: Zabbix server
+    networks:
+      zabbix:
+        ipv4_address: 172.20.0.5
 
   grafana:
     image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/grafana:9.3.2
@@ -96,6 +108,9 @@ services:
     ports:
       - 3000:3000
     restart: unless-stopped
+    networks:
+      zabbix:
+        ipv4_address: 172.20.0.6
 
 volumes:
   zabbix-server-history-data:
@@ -104,3 +119,10 @@ volumes:
   grafana-conf:
 
 
+networks:
+  zabbix:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+          gateway: 172.20.0.1

@@ -32,3 +32,11 @@ pwd: admin
 ```
 8955: zabbix server dashboard
 ```
+
+## Zabbix Feishu Alert
+zabbix环境安装curl
+```
+docker exec --privileged -u root -it zabbix-server /bin/bash
+apt-get update
+apt-get install curl
+```
