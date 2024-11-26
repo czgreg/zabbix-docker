@@ -14,7 +14,7 @@ services:
     volumes:
       - zabbix-server-history-data:/var/lib/zabbix/export:z
       - ./config.ini:/usr/lib/zabbix/alertscripts/config.ini:ro
-      - ./lark_alertscripts.py:/usr/lib/zabbix/alertscripts/lark_alertscripts.py:ro
+      - ./lark_alertscripts.py:/usr/lib/zabbix/alertscripts/lark_alertscripts.py
 
     depends_on:
       - zabbix-timescaledb
