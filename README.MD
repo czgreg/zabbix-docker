@@ -1,14 +1,14 @@
-# Zabbix + Grafana ALL IN ONE 最小化部署方案
+# Zabbix + Grafana ALLINONE （ Minimize Deployment Plan）
 
-## 软硬件配置：
+## System Configration：
 ```
-System： Debian 12
-cpu: 4核/8核
-ram: 8G/16G
-硬盘：500G
+system： Debian 12
+cpu: 4 core/8 core
+memory: 8G/16G
+disk：500G
 ```
 
-## 安装步骤
+## Install
 ```
 apt-get update
 apt-get install git -y
