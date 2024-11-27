@@ -32,12 +32,5 @@ pwd: admin
 ```
 8955: zabbix server dashboard
 ```
-
-## Zabbix Feishu Alert
-zabbix环境安装python
-```
-docker exec --privileged -u root -it zabbix-server /bin/bash
-apt-get update
-apt-get install -y python3 python3-pip
-pip install requests
-```
+## Zabbix Proxy
+当监控主机和监控项过多时，建议引入Proxy进行分担。Proxy与Server不建议Allinone部署。
