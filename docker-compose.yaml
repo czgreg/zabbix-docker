@@ -117,57 +117,56 @@ services:
     networks:
       zabbix:
         ipv4_address: 172.20.0.6
+  # # 一般与zabbix-server互斥部署
+  # zabbix-proxy:
+  #   build:
+  #     context: ./config/zabbix_proxy
+  #   container_name: zabbix-proxy
+  #   restart: unless-stopped
+  #   # ports:
+  #   #   - 10051:10051
+  #   volumes:
+  #     - /etc/localtime:/etc/localtime:ro
+  #     - /etc/timezone:/etc/timezone:ro
+  #     - zabbix-proxy-data:/var/lib/zabbix
+  #   environment:
+  #     ZBX_PROXYMODE: 0
+  #     ZBX_PROXYLOCALBUFFER: 0
+  #     ZBX_PROXYOFFLINEBUFFER: 24 # ? Proxy will keep data for N hours in case of no connectivity with Zabbix server. Older data will be lost. (Default :  1)
+  #     ZBX_PROXYCONFIGFREQUENCY: 30
+  #     ZBX_DATASENDERFREQUENCY: 1
+  #     ZBX_STARTPOLLERS: 200
+  #     ZBX_STARTPOLLERSUNREACHABLE: 20
+  #     ZBX_STARTPINGERS: 25
+  #     ZBX_STARTDISCOVERERS: 5
+  #     ZBX_STARTHTTPPOLLERS: 5
+  #     ZBX_HOUSEKEEPINGFREQUENCY: 1
+  #     ZBX_CACHESIZE: 2G
+  #     ZBX_STARTDBSYNCERS: 30
+  #     ZBX_HISTORYCACHESIZE: 1G
+  #     ZBX_HISTORYINDEXCACHESIZE: 1G
+  #     ZBX_TIMEOUT: 15
+  #     ZBX_UNREACHABLEPERIOD: 45
+  #     ZBX_UNAVAILABLEDELAY: 60
+  #     ZBX_UNREACHABLEDELAY: 15
+  #     ZBX_LOGSLOWQUERIES: 3000
+  #     ZBX_TLSCONNECT: psk
+  #     ZBX_TLSACCEPT: psk
+  #     ZBX_TLSPSKFILE: /etc/zabbix/proxy.psk
 
-  # 一般与zabbix-server互斥部署
-  zabbix-proxy:
-    build:
-      context: ./config/zabbix_proxy
-    container_name: zabbix-proxy
-    restart: unless-stopped
-    # ports:
-    #   - 10051:10051
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - /etc/timezone:/etc/timezone:ro
-      - zabbix-proxy-data:/var/lib/zabbix
-    environment:
-      ZBX_PROXYMODE: 0
-      ZBX_PROXYLOCALBUFFER: 0
-      ZBX_PROXYOFFLINEBUFFER: 24 # ? Proxy will keep data for N hours in case of no connectivity with Zabbix server. Older data will be lost. (Default :  1)
-      ZBX_PROXYCONFIGFREQUENCY: 30
-      ZBX_DATASENDERFREQUENCY: 1
-      ZBX_STARTPOLLERS: 200
-      ZBX_STARTPOLLERSUNREACHABLE: 20
-      ZBX_STARTPINGERS: 25
-      ZBX_STARTDISCOVERERS: 5
-      ZBX_STARTHTTPPOLLERS: 5
-      ZBX_HOUSEKEEPINGFREQUENCY: 1
-      ZBX_CACHESIZE: 2G
-      ZBX_STARTDBSYNCERS: 30
-      ZBX_HISTORYCACHESIZE: 1G
-      ZBX_HISTORYINDEXCACHESIZE: 1G
-      ZBX_TIMEOUT: 15
-      ZBX_UNREACHABLEPERIOD: 45
-      ZBX_UNAVAILABLEDELAY: 60
-      ZBX_UNREACHABLEDELAY: 15
-      ZBX_LOGSLOWQUERIES: 3000
-      ZBX_TLSCONNECT: psk
-      ZBX_TLSACCEPT: psk
-      ZBX_TLSPSKFILE: /etc/zabbix/proxy.psk
+  #     ZBX_TLSPSKIDENTITY: ${CLIENT_ID}
+  #     ZBX_SERVER_HOST: ${ZBX_SERVER_HOST}
+  #     ZBX_HOSTNAME: ${CLIENT_ID}
 
-      ZBX_TLSPSKIDENTITY: ${CLIENT_ID}
-      ZBX_SERVER_HOST: ${ZBX_SERVER_HOST}
-      ZBX_HOSTNAME: ${CLIENT_ID}
-
-      ZBX_PSK: ${CLIENT_SECRET}
-    networks:
-      zabbix:
-        ipv4_address: 172.20.0.7
+  #     ZBX_PSK: ${CLIENT_SECRET}
+  #   networks:
+  #     zabbix:
+  #       ipv4_address: 172.20.0.7
 
 volumes:
   zabbix-server-history-data:
-  zabbix-timescaledb-data:
-  zabbix-proxy-data:
+  zabbix-timescaledb-data: # zabbix-proxy-data:
+
   grafana-data:
   grafana-conf:
 
