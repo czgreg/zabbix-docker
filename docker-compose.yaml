@@ -55,6 +55,7 @@ services:
     restart: unless-stopped
     ports:
       - 8080:8080
+      - 8443:8443
     depends_on:
       - zabbix-timescaledb
     environment:
@@ -63,6 +64,8 @@ services:
     networks:
       zabbix:
         ipv4_address: 172.20.0.3
+    volumes:
+      - "./ssl:/etc/ssl/nginx"
 
   zabbix-timescaledb:
     image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/timescaledb

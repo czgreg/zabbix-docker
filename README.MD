@@ -34,3 +34,15 @@ pwd: admin
 ```
 ## Zabbix Proxy
 当监控主机和监控项过多时，建议引入Proxy进行分担。Proxy与Server不建议Allinone部署。
+
+## Debian 
+```
+apt install ufw
+export PATH=$PATH:/usr/sbin
+ufw status
+```
+## 自签名证书
+```
+# 生成自签名证书, ip为终端访问的ip
+./scripts/ssl.sh 127.0.0.1
+```

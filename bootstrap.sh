@@ -20,6 +20,13 @@ sudo apt update
 sudo apt-get -y install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 # 查看docker版本信息
 docker -v
+
+
+# 签证
+source ./.env
+echo "ssl create on $HOSTNAME"
+/bin/sh ./scripts/ssl.sh $HOSTNAME
+
 # 拉取docker
 sudo docker compose up -d
 
