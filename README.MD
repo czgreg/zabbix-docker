@@ -4,7 +4,7 @@
 ```
 system： Debian 12
 cpu: 4 core/8 core
-memory: 8G/16G
+memory: 16G
 disk：500G
 ```
 
