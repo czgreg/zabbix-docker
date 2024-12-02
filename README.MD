@@ -46,3 +46,9 @@ ufw status
 # 生成自签名证书, ip为终端访问的ip
 ./scripts/ssl.sh 127.0.0.1
 ```
+## 快速创建设备组与设备
+```
+cd init
+修改devices.txt
+python3 api_create_groups_and_hosts.py
+```
