@@ -5,7 +5,7 @@ import requests
 import json
 from pathlib import Path
 
-ZABIX_ADD = 'http://187.189.177.251:18080'
+ZABIX_ADD = 'http://127.0.0.1:8080'
 url = ZABIX_ADD + '/api_jsonrpc.php'
 template_id = 10564
 

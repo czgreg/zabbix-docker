@@ -3,8 +3,8 @@
 ## System Configration：
 ```
 system： Debian 12
-cpu: 4 core/8 core
-memory: 16G
+cpu: 8 core/16 core
+memory: 16G/32G
 disk：500G
 ```
 
@@ -48,7 +48,6 @@ ufw status
 ```
 ## 快速创建设备组与设备
 ```
-cd init
-修改devices.txt
-python3 api_create_groups_and_hosts.py
+修改 init/devices.txt
+python3 init/init.py
 ```
