@@ -19,12 +19,12 @@ cd zabbix-docker/
 ## Url
 ```
 Zabbix
-url : http://{server_ip}:8080
+url : https://{server_ip}:8443
 user: Admin
 pwd: zabbix
 
 Grafana
-url : http://{server_ip}:3000
+url : https://{server_ip}:3443
 user: admin
 pwd: admin
 ```

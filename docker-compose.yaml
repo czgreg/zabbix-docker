@@ -54,7 +54,7 @@ services:
     container_name: zabbix-web
     restart: unless-stopped
     ports:
-      - 8080:8080
+      # - 8080:8080
       - 8443:8443
     depends_on:
       - zabbix-timescaledb
@@ -107,15 +107,17 @@ services:
         ipv4_address: 172.20.0.5
 
   grafana:
-    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/grafana:9.3.2
+    image: crpi-xaugotj05t5wxf0m.cn-shanghai.personal.cr.aliyuncs.com/netmaster/grafana:latest
     container_name: zabbix-grafana
     environment:
       GF_INSTALL_PLUGINS: alexanderzobnin-zabbix-app
     volumes:
       - grafana-data:/var/lib/grafana
       - grafana-conf:/etc/grafana
+      - ./ssl:/etc/grafana/ssl
+      - ./config/grafana/grafana.ini:/etc/grafana/grafana.ini
     ports:
-      - 3000:3000
+      - 3443:3443
     restart: unless-stopped
     networks:
       zabbix:
