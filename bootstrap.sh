@@ -31,7 +31,7 @@ echo "ssl create on $HOSTNAME"
 sudo docker compose up -d
 
 check_zabbix() {
-    response=$(curl --location --request GET http://localhost:8088/api_jsonrpc.php --header 'Content-Type: application/json' --data '{}' 2>/dev/null)
+    response=$(curl --location --request GET http://localhost:8080/api_jsonrpc.php --header 'Content-Type: application/json' --data '{}' 2>/dev/null)
     error_code=$(echo $response | grep -o '"code":-32600')
     if [[ -n $error_code ]]; then
         return 0
