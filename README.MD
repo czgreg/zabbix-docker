@@ -16,7 +16,7 @@ git clone https://github.com/czgreg/zabbix-docker.git
 cd zabbix-docker/
 ./bootstrap.sh
 ```
-## Url
+## Login Url
 ```
 Zabbix
 url : https://{server_ip}:8443
@@ -45,10 +45,6 @@ ufw status
 ```
 # 生成自签名证书, ip为终端访问的ip
 ./scripts/ssl.sh 127.0.0.1
-
-访问http端口默认 8080
-访问https端口默认 8443
-
 ```
 ## 快速创建设备组与设备
 ```
