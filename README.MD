@@ -2,19 +2,29 @@
 
 ## System Configration：
 ```
+zabbix-server:
 system： Debian 12
 cpu: 8 core/16 core
 memory: 16G/32G
-disk：500G
+disk：1000G
+
+zabbix-proxy:
+system： Debian 12
+cpu: 4 core
+memory: 8G
+disk：100G
 ```
 
-## Install
+## Zabbix Server Install
 ```
 apt-get update
 apt-get install git -y
 git clone https://github.com/czgreg/zabbix-docker.git
 cd zabbix-docker/
-./bootstrap.sh
+
+copy env.server.example .env  # 修改环境变量
+
+./bootstrap.server.sh
 ```
 ## Login Url
 ```
@@ -23,31 +33,18 @@ url : https://{server_ip}:8443
 user: Admin
 pwd: zabbix
 
-Grafana
-url : https://{server_ip}:3443
-user: admin
-pwd: admin
+服务端需要将该server_ip tcp port 10051端口开放给
 ```
-## Other
-```
-8955: zabbix server dashboard
-```
-## Zabbix Proxy
-当监控主机和监控项过多时，建议引入Proxy进行分担。Proxy与Server不建议Allinone部署。
 
-## Debian 
+
+## Zabbix Proxy Install
 ```
-apt install ufw
-export PATH=$PATH:/usr/sbin
-ufw status
-```
-## 自签名证书
-```
-# 生成自签名证书, ip为终端访问的ip
-./scripts/ssl.sh 127.0.0.1
-```
-## 快速创建设备组与设备
-```
-修改 init/devices.txt
-python3 init/init.py
+apt-get update
+apt-get install git -y
+git clone https://github.com/czgreg/zabbix-docker.git
+cd zabbix-docker/
+
+copy env.server.example .env  # 修改环境变量
+
+./bootstrap.proxy.sh
 ```
