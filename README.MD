@@ -44,7 +44,7 @@ apt-get install git -y
 git clone https://github.com/czgreg/zabbix-docker.git
 cd zabbix-docker/
 
-copy env.server.example .env  # 修改环境变量
+copy env.proxy.example .env  # 修改环境变量
 
 ./bootstrap.proxy.sh
 ```
