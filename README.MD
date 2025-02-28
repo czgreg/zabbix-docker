@@ -22,7 +22,7 @@ apt-get install git -y
 git clone https://github.com/czgreg/zabbix-docker.git
 cd zabbix-docker/
 
-copy env.server.example .env  # 修改环境变量
+cp env.server.example .env  # 修改环境变量
 
 ./bootstrap.server.sh
 ```
@@ -34,6 +34,13 @@ user: Admin
 pwd: zabbix
 
 服务端需要将该server_ip tcp port 10051端口开放给
+
+可以安装grafana实现更好的可视化
+Grafana
+url : http://{server_ip}:3000
+user: admin
+pwd: admin
+```
 ```
 
 
